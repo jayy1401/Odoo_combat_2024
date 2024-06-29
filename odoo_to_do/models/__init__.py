@@ -4,4 +4,4 @@
 
 from . import todo_task
 from . import todo_task_stage
-from . import res_users
+from . import ir_actions_server
