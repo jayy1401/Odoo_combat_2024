@@ -1,20 +1,19 @@
 # models/todo_task.py
 from odoo import api, fields, models, tools, SUPERUSER_ID
-from odoo.exceptions import AccessError
+from odoo.exceptions import ValidationError
 
 
 class TodoTask(models.Model):
     _name = 'todo.task'
     _description = 'Todo Task'
     _inherit = ['mail.thread', 'mail.tracking.duration.mixin']
-    _primary_email = 'email_from'
     _track_duration_field = 'stage_id'
 
     name = fields.Char(string='Task Name', required=True)
     description = fields.Text(string='Description')
     active = fields.Boolean('Active', default=True, tracking=True)
     due_date = fields.Date(string='Due Date')
-    assignee_id = fields.Many2one('res.users', string='Assignee')
+    assignee_id = fields.Many2one('res.users', string='Assignee', tracking=True)
     priority = fields.Selection(
         [('low', 'Low'), ('medium', 'Medium'), ('high', 'High')],
         string='Priority', default='medium'
@@ -24,15 +23,7 @@ class TodoTask(models.Model):
         'todo.task.stage', string='Stage', index=True, tracking=True, readonly=False, store=True,
         compute='compute_stage_fold', group_expand='_read_group_stage_ids',
         copy=False, ondelete='restrict')
-    email_from = fields.Char(
-        'Email', tracking=40, index='trigram',
-        compute='_compute_email_from', inverse='_inverse_email_from', readonly=False, store=True)
 
-    @api.depends('assignee_id.email')
-    def _compute_email_from(self):
-        for lead in self:
-            if lead.assignee_id.email:
-                lead.email_from = lead.assignee_id.email
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):

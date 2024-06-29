@@ -18,7 +18,6 @@
                     <field name="assignee_id"/>
                     <field name="priority"/>
                     <field name="comments"/>
-                    <field name="email_from"/>
                     <templates>
                         <t t-name="kanban-menu" t-if="!selection_mode" groups="base.group_user">
                             <a t-if="widget.editable" role="menuitem" type="set_cover" class="dropdown-item"
