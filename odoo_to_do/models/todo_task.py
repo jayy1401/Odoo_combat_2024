@@ -6,14 +6,7 @@ from odoo.exceptions import AccessError
 class TodoTask(models.Model):
     _name = 'todo.task'
     _description = 'Todo Task'
-    _inherit = ['mail.thread.cc',
-                'mail.thread.blacklist',
-                'mail.thread.phone',
-                'mail.activity.mixin',
-                'utm.mixin',
-                'format.address.mixin',
-                'mail.tracking.duration.mixin',
-                ]
+    _inherit = ['mail.thread', 'mail.tracking.duration.mixin']
     _primary_email = 'email_from'
     _track_duration_field = 'stage_id'
 
@@ -21,19 +14,12 @@ class TodoTask(models.Model):
     description = fields.Text(string='Description')
     active = fields.Boolean('Active', default=True, tracking=True)
     due_date = fields.Date(string='Due Date')
-    assignee_ids = fields.Many2many('res.users', string='Assignee')
+    assignee_id = fields.Many2one('res.users', string='Assignee')
     priority = fields.Selection(
         [('low', 'Low'), ('medium', 'Medium'), ('high', 'High')],
         string='Priority', default='medium'
     )
-    # status = fields.Selection(
-    #     [('todo', 'To Do'), ('in_progress', 'In Progress'), ('done', 'Done')],
-    #     string='Status', default='todo'
-    # )
     comments = fields.One2many('todo.comment', 'task_id', string='Comments')
-    team_id = fields.Many2one(
-        'crm.team', string='Sales Team', check_company=True, index=True, tracking=True
-        , ondelete="set null", readonly=False, store=True)
     stage_id = fields.Many2one(
         'todo.task.stage', string='Stage', index=True, tracking=True, readonly=False, store=True,
         compute='compute_stage_fold', group_expand='_read_group_stage_ids',
@@ -42,11 +28,11 @@ class TodoTask(models.Model):
         'Email', tracking=40, index='trigram',
         compute='_compute_email_from', inverse='_inverse_email_from', readonly=False, store=True)
 
-    @api.depends('assignee_ids.email')
+    @api.depends('assignee_id.email')
     def _compute_email_from(self):
         for lead in self:
-            if lead.assignee_ids.email:
-                lead.email_from = lead.assignee_ids.email
+            if lead.assignee_id.email:
+                lead.email_from = lead.assignee_id.email
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):

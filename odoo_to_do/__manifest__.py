@@ -8,6 +8,7 @@
     'depends': ['base', 'utm', 'mail', 'phone_validation'],
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/todo_task_views.xml',
     ],
     'installable': True,
