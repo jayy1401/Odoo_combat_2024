@@ -17,7 +17,6 @@
                     <field name="assignee_id"/>
                     <field name="priority"/>
                     <field name="comments"/>
-                    <field name="email_from"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">

@@ -10,6 +10,7 @@
         'security/ir.model.access.csv',
         'security/security.xml',
         'views/todo_task_views.xml',
+        'views/res_users.xml',
     ],
     'installable': True,
     'application': True,
