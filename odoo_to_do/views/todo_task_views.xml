@@ -26,11 +26,6 @@
                             <a t-if="widget.editable" role="menuitem" type="set_cover" class="dropdown-item"
                                data-field="displayed_image_id">Set Cover Image
                             </a>
-                            <a name="%(portal.portal_share_action)d" role="menuitem" type="action" class="dropdown-item"
-                               context="{'dialog_size': 'medium'}">Share
-                            </a>
-                            <div role="separator" class="dropdown-divider"></div>
-                            <ul class="oe_kanban_colorpicker" data-field="color"/>
                         </t>
                         <t t-name="kanban-box">
                             <templates>
