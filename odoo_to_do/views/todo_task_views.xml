@@ -5,8 +5,7 @@
             <field name="name">todo.task.kanban</field>
             <field name="model">todo.task</field>
             <field name="arch" type="xml">
-                <kanban
-                        default_group_by="stage_id"
+                <kanban default_group_by="stage_id"
                         class="o_kanban_small_column o_kanban_project_tasks"
                         examples="project"
                         default_order="priority desc">
@@ -20,35 +19,26 @@
                     <field name="comments"/>
                     <field name="email_from"/>
                     <templates>
-                        <t t-name="kanban-menu" t-if="!selection_mode" groups="base.group_user">
-                            <a t-if="widget.editable" role="menuitem" type="set_cover" class="dropdown-item"
-                               data-field="displayed_image_id">Set Cover Image
-                            </a>
-                        </t>
                         <t t-name="kanban-box">
-                            <templates>
-                                <t t-name="kanban-box">
-                                    <div class="o_kanban_content">
-                                        <div class="o_kanban_header">
-                                            <div class="o_kanban_primary_left">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_header">
+                                        <div class="o_kanban_primary_left">
+                                            <field name="priority" widget="priority"/>
+                                            <strong>
                                                 <field name="name"/>
-                                                <div class="o_kanban_tags">
-                                                    <field name="priority" widget="priority"/>
-                                                </div>
-                                            </div>
-                                            <div class="o_kanban_primary_right">
-                                                <field name="stage_id" widget="statusbar" clickable="1"/>
-                                            </div>
-                                        </div>
-                                        <div class="o_kanban_record_bottom">
-                                            <field name="name"/>
-                                            <field name="due_date"/>
-                                            <field name="assignee_id"/>
-                                            <field name="active"/>
+                                            </strong>
                                         </div>
                                     </div>
-                                </t>
-                            </templates>
+                                    <div class="o_kanban_record_bottom">
+                                        <field name="name" invisible="1"/>
+                                        <label for="due_date" string="Deadline"/>
+                                        <field name="due_date"/>
+                                        <field name="assignee_ids" widget="many2many_tags"/>
+                                        <field name="active" invisible="1"/>
+                                    </div>
+                                </div>
+                            </div>
                         </t>
                     </templates>
                 </kanban>
@@ -70,21 +60,11 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="description"/>
+                            <field name="description" options="{'collaborative': true}"/>
                             <field name="due_date"/>
                             <field name="assignee_id"/>
                             <field name="priority"/>
                         </group>
-                        <notebook>
-                            <page string="Comments">
-                                <field name="comments">
-                                    <tree string="Comments">
-                                        <field name="user_id"/>
-                                        <field name="content"/>
-                                    </tree>
-                                </field>
-                            </page>
-                        </notebook>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" groups="base.group_user"/>
@@ -104,7 +84,6 @@
                     <field name="due_date"/>
                     <field name="assignee_id"/>
                     <field name="priority"/>
-                    <!--                    <field name="status"/>-->
                 </tree>
             </field>
         </record>
