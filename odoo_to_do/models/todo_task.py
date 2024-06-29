@@ -31,12 +31,9 @@ class TodoTask(models.Model):
     #     string='Status', default='todo'
     # )
     comments = fields.One2many('todo.comment', 'task_id', string='Comments')
-    team_id = fields.Many2one(
-        'crm.team', string='Sales Team', check_company=True, index=True, tracking=True
-        , ondelete="set null", readonly=False, store=True)
     stage_id = fields.Many2one(
         'todo.task.stage', string='Stage', index=True, tracking=True, readonly=False, store=True,
-        compute='compute_stage_fold', group_expand='_read_group_stage_ids',
+        compute='_compute_stage_id', group_expand='_read_group_stage_ids',
         copy=False, ondelete='restrict')
     email_from = fields.Char(
         'Email', tracking=40, index='trigram',
@@ -54,9 +51,12 @@ class TodoTask(models.Model):
         stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
 
-    def _get_default_stage_id(self):
-        """ Gives default stage_id """
-        return self.stage_find(order="fold, sequence, id")
+    @api.depends('stage_id')
+    def _compute_stage_id(self):
+        for todo_task in self:
+            if not todo_task.stage_id:
+                new_stage = self.env['todo.task.stage'].search(domain=[('fold', '=', False)])
+                todo_task.stage_id = new_stage.id
 
 
 class TodoComment(models.Model):
