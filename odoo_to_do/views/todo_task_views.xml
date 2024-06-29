@@ -1,0 +1,66 @@
+<!-- views/todo_task_views.xml -->
+<odoo>
+    <data>
+
+        <!-- Form View for Todo Task -->
+        <record id="view_todo_task_form" model="ir.ui.view">
+            <field name="name">todo.task.form</field>
+            <field name="model">todo.task</field>
+            <field name="arch" type="xml">
+                <form string="Todo Task">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="due_date"/>
+                            <field name="assignee_id"/>
+                            <field name="priority"/>
+                            <field name="status"/>
+                        </group>
+                        <notebook>
+                            <page string="Comments">
+                                <field name="comments">
+                                    <tree string="Comments">
+                                        <field name="user_id"/>
+                                        <field name="content"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Todo Task -->
+        <record id="view_todo_task_tree" model="ir.ui.view">
+            <field name="name">todo.task.tree</field>
+            <field name="model">todo.task</field>
+            <field name="arch" type="xml">
+                <tree string="Todo Task">
+                    <field name="name"/>
+                    <field name="due_date"/>
+                    <field name="assignee_id"/>
+                    <field name="priority"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action for Todo Task -->
+        <record id="action_todo_task" model="ir.actions.act_window">
+            <field name="name">Todo Tasks</field>
+            <field name="res_model">todo.task</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_to_do_task" name="Todo Tasks"/>
+
+        <menuitem 
+            id="menu_to_do"
+            name="Todo Task" 
+            parent="menu_to_do_task"
+            action="action_todo_task"/>
+
+    </data>
+</odoo>
