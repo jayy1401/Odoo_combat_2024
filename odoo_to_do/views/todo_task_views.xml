@@ -34,7 +34,7 @@
                                         <field name="name" invisible="1"/>
                                         <label for="due_date" string="Deadline"/>
                                         <field name="due_date"/>
-                                        <field name="assignee_ids" widget="many2many_tags"/>
+                                        <field name="assignee_id"/>
                                         <field name="active" invisible="1"/>
                                     </div>
                                 </div>
@@ -100,12 +100,13 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="menu_to_do_task" name="Todo Tasks"/>
+        <menuitem id="menu_to_do_task" name="Todo Tasks" web_icon="odoo_to_do,static/description/icon.png"/>
 
         <menuitem
                 id="menu_to_do"
                 name="Todo Task"
                 parent="menu_to_do_task"
+
                 action="action_todo_task"/>
 
         <menuitem
@@ -131,8 +132,6 @@
                     <filter string="Low" name="low" domain="[('priority', '=', 'Low')]"/>
                     <separator/>
                     <filter string="High" name="high" domain="[('priority', '=', 'high')]"/>
-
-
                 </search>
             </field>
         </record>

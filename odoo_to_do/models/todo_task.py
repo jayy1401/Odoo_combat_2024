@@ -11,7 +11,7 @@ class TodoTask(models.Model):
     _track_duration_field = 'stage_id'
 
     name = fields.Char(string='Task Name', required=True)
-    description = fields.Text(string='Description')
+    description = fields.Html(string='Description')
     active = fields.Boolean('Active', default=True, tracking=True)
     due_date = fields.Date(string='Due Date')
     assignee_id = fields.Many2one('res.users', string='Assignee')
