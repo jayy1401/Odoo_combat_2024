@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 odoo_to_do.access_todo_task,access_todo_task,odoo_to_do.model_todo_task,base.group_user,1,1,1,1
 odoo_to_do.access_todo_comment,access_todo_comment,odoo_to_do.model_todo_comment,base.group_user,1,1,1,1
+odoo_to_do.access_todo_task_stage,access_todo_task_stage,odoo_to_do.model_todo_task_stage,base.group_user,1,1,1,1

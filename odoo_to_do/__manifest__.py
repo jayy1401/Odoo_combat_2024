@@ -5,7 +5,7 @@
     'summary': 'Real-time multi-user collaboration todo list application',
     'category': 'Productivity',
     'author': 'Your Name',
-    'depends': ['base', 'web', 'mail'],
+    'depends': ['base', 'web', 'mail', 'phone_validation'],
     'data': [
         'security/ir.model.access.csv',
         'views/todo_task_views.xml',
