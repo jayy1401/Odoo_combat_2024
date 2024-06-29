@@ -24,7 +24,6 @@ class TodoTask(models.Model):
         compute='_compute_stage_id', group_expand='_read_group_stage_ids',
         copy=False, ondelete='restrict')
 
-
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
         search_domain = [('id', 'in', stages.ids)]
@@ -37,6 +36,24 @@ class TodoTask(models.Model):
             if not todo_task.stage_id:
                 new_stage = self.env['todo.task.stage'].search(domain=[('fold', '=', False)])
                 todo_task.stage_id = new_stage.id
+
+    def unlink(self):
+        tl_check = False
+        pm_check = False
+        if self.env.user.has_group('odoo_to_do.group_project_manager'):
+            pm_check = True
+            if not self.filtered(
+                    lambda x: x.assignee_id.manager_id.id == self.env.user.id
+                              or x.assignee_id.manager_id.manager_id.id == self.env.user.id):
+                raise ValidationError('Project Manager not have access to delete this task.')
+        if self.env.user.has_group('odoo_to_do.group_team_leader') and not pm_check:
+            tl_check = True
+            if not self.filtered(
+                    lambda x: x.assignee_id.manager_id.id == self.env.user.id):
+                raise ValidationError('Team Leader not have access to delete this task.')
+        if self.env.user.has_group('odoo_to_do.group_employee') and not pm_check and not tl_check:
+            raise ValidationError('Employee not have access to delete this task.')
+        return super(TodoTask, self).unlink()
 
 
 class TodoComment(models.Model):
