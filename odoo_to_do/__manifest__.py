@@ -11,6 +11,7 @@
         'security/security.xml',
         'views/todo_task_views.xml',
         'views/ir_actions_server_views.xml',
+        'views/res_users.xml',
     ],
     'installable': True,
     'application': True,
