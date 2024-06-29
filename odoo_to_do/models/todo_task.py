@@ -12,7 +12,7 @@ class TodoTask(models.Model):
     name = fields.Char(string='Task Name', required=True)
     description = fields.Html(string='Description')
     active = fields.Boolean('Active', default=True, tracking=True)
-    due_date = fields.Date(string='Due Date')
+    due_date = fields.Date(string='Deadline Date')
     assignee_id = fields.Many2one('res.users', string='Assignee', tracking=True)
     priority = fields.Selection(
         [('low', 'Low'), ('medium', 'Medium'), ('high', 'High')],

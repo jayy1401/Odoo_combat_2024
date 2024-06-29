@@ -53,17 +53,22 @@
                     <header>
                         <field name="active" invisible="1"/>
                         <field name="stage_id" widget="statusbar_duration"
+                               required="1"
                                options="{'clickable': '1', 'fold_field': 'fold'}"
                                invisible="not active"/>
                     </header>
                     <sheet>
                         <group>
-                            <field name="name"/>
-                            <field name="description" options="{'collaborative': true}"/>
-                            <field name="due_date"/>
-                            <field name="assignee_id"/>
-                            <field name="priority"/>
+                            <field name="name" required="1"/>
+                            <field name="due_date" required="1"/>
+                            <field name="assignee_id" required="1"/>
+                            <field name="priority" required="1"/>
                         </group>
+                        <notebook>
+                            <page string="Description" name="to_do_task_description">
+                                <field name="description" options="{'collaborative': true}" required="1"/>
+                            </page>
+                        </notebook>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" groups="base.group_user"/>
